@@ -9,20 +9,24 @@ delete_this_folders:list[str] = [
     ".ipynb_checkpoints",
 ]
 
-for root, folders, files in os.walk("."):
+is_confirmed:str = input("Confirm launch of script? [Y/N]")
+if is_confirmed != "Y" or is_confirmed != "y":
+    exit()
+
+for main, folders, files in os.walk("."):
     for folder in folders:
         if folder in delete_this_folders:
-            path = os.path.join(root, folder)
+            path = os.path.join(main, folder)
             print(f"Deleting {path} ...")
             shutil.rmtree(path)
 
     for file in files:
         if file.endswith(".pyc"):
-            path = os.path.join(root, file)
+            path = os.path.join(main, file)
             print(f"Deleting {path} ...")
             os.remove(path)
         elif file.endswith(".coverage"):
-            path = os.path.join(root, folder)
+            path = os.path.join(main, folder)
             print(f"Deleting {path} ...")
             shutil.rmtree(path)
 
