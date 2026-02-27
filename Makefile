@@ -1,5 +1,5 @@
 ## Delete not essential files of Python and several Python libraries
-clean_python_mac:
+clean_python_unix:
 	find . -name "**/*.pyc" -delete 
 	find . -name "__pycache__" -type d -exec rm -rf {} +
 	find . -type d -name ".ipynb_checkpoints" -exec rm -r {} +
