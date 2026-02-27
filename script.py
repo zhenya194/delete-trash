@@ -10,7 +10,7 @@ delete_this_folders:list[str] = [
 ]
 
 is_confirmed:str = input("Confirm launch of script? [Y/N]")
-if is_confirmed != "Y" or is_confirmed != "y":
+if is_confirmed.lower() != "y":
     exit()
 
 for main, folders, files in os.walk("."):
