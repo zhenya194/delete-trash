@@ -11,11 +11,3 @@ clean_python_win:
 	Get-ChildItem -Recurse -Filter "*.pyc" | Remove-Item -Force
 	Remove-Item .pytest_cache -Recurse -Force
 	Remove-Item *.egg-info -Recurse -Force
-
-## Delete not essential files of Kotlin and several Kotlin libraries
-clean_kotlin_unix:
-	rm -rf .gradle out .kotlin
-	rm -rf target
-clean_kotlin_win:
-	Remove-Item -Recurse -Force .gradle, .kotlin, out
-	Remove-Item -Recurse -Force target
