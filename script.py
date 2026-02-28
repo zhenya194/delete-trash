@@ -1,33 +1,21 @@
-import os
 import shutil
+from pathlib import Path
 
-delete_this_folders:list[str] = [
-    "__pycache__",
-    ".pytest_cache",
-    ".mypy_cache",
-    ".ruff_cache",
-    ".ipynb_checkpoints",
-]
+delete_folders:list = ["__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".ipynb_checkpoints"]
+delete_files:list = [".pyc", ".coverage"]
 
-is_confirmed:str = input("Confirm launch of script? [Y/N]")
-if is_confirmed.lower() != "y":
+confirm = input("Confirm launch of script? [Y/N]: ")
+if confirm.lower() != "y":
     exit()
 
-for main, folders, files in os.walk("."):
-    for folder in folders:
-        if folder in delete_this_folders:
-            path = os.path.join(main, folder)
-            print(f"Deleting {path} ...")
-            shutil.rmtree(path)
+for item in Path(".").rglob("*"):
+    if item.is_dir() and item.name in delete_folders:
+        print(f"Deleting folder {item} ...")
+        shutil.rmtree(item, ignore_errors=True)
 
-    for file in files:
-        if file.endswith(".pyc"):
-            path = os.path.join(main, file)
-            print(f"Deleting {path} ...")
-            os.remove(path)
-        elif file.endswith(".coverage"):
-            path = os.path.join(main, folder)
-            print(f"Deleting {path} ...")
-            shutil.rmtree(path)
+    elif item.is_file() and (item.suffix in delete_files or item.name == ".coverage"):
+        if item.exists():
+            print(f"Deleting file: {item}")
+            item.unlink(missing_ok=True)
 
 print("Completed.")
